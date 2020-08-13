@@ -1,5 +1,6 @@
 # https://github.com/GoogleCloudPlatform/google-fluentd/blob/master/docker/Dockerfile
-FROM gcr.io/stackdriver-agents/stackdriver-logging-agent:1.6.37
+ARG RELEASE
+FROM gcr.io/stackdriver-agents/stackdriver-logging-agent:${RELEASE}
 
 # Configure default values for env-based sidecar
 ENV K8S_NAMESPACE=default \
