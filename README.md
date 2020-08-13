@@ -101,3 +101,11 @@ spec:
             - name: k8s-labels
               mountPath: /k8s
 ```
+## Docker Image
+https://hub.docker.com/r/voxsoft/google-fluentd-sidecar
+
+## CI/CD Automated scheduled build
+Gitlab CI/CD will run weekly by schedule to update this image according to original image: `gcr.io/stackdriver-agents/stackdriver-logging-agent`
+
+## Thank you!
+Thanks to https://github.com/laurensknoll for implementing this solution!
