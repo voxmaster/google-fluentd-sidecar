@@ -30,7 +30,7 @@ Build Main Image:
         else docker manifest inspect ${CONTAINER_REGISTRY}:${RELEASE} > /dev/null && echo "Version ${RELEASE} is already exists" && exit 0
       fi
     # Build container image
-    - docker build -t ${CONTAINER_REGISTRY}:${RELEASE} . 
+    - docker build -t ${CONTAINER_REGISTRY}:${RELEASE}  --build-arg RELEASE=${RELEASE} .
     # Additional tags for container image
     - docker tag ${CONTAINER_REGISTRY}:${RELEASE}
       ${CONTAINER_REGISTRY}:latest
