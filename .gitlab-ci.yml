@@ -14,7 +14,7 @@ default:
   before_script:
     # Get latest release of google-fluentd
     - apk add curl
-    - export RELEASE=$(curl -Ls https://github.com/GoogleCloudPlatform/google-fluentd/releases | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.tar\.gz' | head -n 1 | cut -d '.' -f -3)
+    - export RELEASE=$(curl -Ls https://github.com/GoogleCloudPlatform/google-fluentd/tags | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.tar\.gz' | head -n 1 | cut -d '.' -f -3)
     - echo -e "\n fluentd:\e[44m ${RELEASE} \e[0m\n"
     # Enable experimental feature to be able to inspect remote images
     - 'mkdir -p ~/.docker && echo ''{"experimental": "enabled"}'' > ~/.docker/config.json'
