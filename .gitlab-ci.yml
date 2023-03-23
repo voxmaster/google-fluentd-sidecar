@@ -3,10 +3,13 @@ stages:
 
 variables:
   GIT_DEPTH: "1"
-  CONTAINER_REGISTRY: voxsoft/google-fluentd-sidecar
+  CONTAINER_REGISTRIES: |
+    voxsoft/google-fluentd-sidecar
+    voxmaster/google-fluentd-sidecar
+    $CI_REGISTRY_IMAGE
 
 default:
-  image: docker:stable
+  image: ezkrg/buildx:latest
   tags:
     - docker
   services:
@@ -16,9 +19,14 @@ default:
     - apk add curl
     - export RELEASE=$(curl -Ls https://github.com/GoogleCloudPlatform/google-fluentd/tags | grep -oE '[0-9]+\.[0-9]+\.[0-9]+\.tar\.gz' | head -n 1 | cut -d '.' -f -3)
     - echo -e "\n fluentd:\e[44m ${RELEASE} \e[0m\n"
+    # Create a set of tags for the image with multiple registries
+    - for REGISTRY in $CONTAINER_REGISTRIES; do
+        TAGS="$TAGS -t ${REGISTRY}:${RELEASE} -t ${REGISTRY}:latest" ;
+      done
     # Enable experimental feature to be able to inspect remote images
     - 'mkdir -p ~/.docker && echo ''{"experimental": "enabled"}'' > ~/.docker/config.json'
     # Authenticate to Container Registry
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY_IMAGE
     - docker login -u $CONTAINER_REGISTRY_USER -p $CONTAINER_REGISTRY_PASSWORD
 
 Build Main Image:
@@ -28,13 +36,10 @@ Build Main Image:
     - |
       if [ "${FORCE_REBUILD}" == "true" ]
         then echo -e "\e[41mImage Rebuild Forced!\e[0m"
-        else docker manifest inspect ${CONTAINER_REGISTRY}:${RELEASE} > /dev/null && echo "Version ${RELEASE} is already exists" && exit 0
+        else docker manifest inspect ${CI_REGISTRY_IMAGE}:${RELEASE} > /dev/null && echo "Version ${RELEASE} is already exists" && exit 0
       fi
     # Build container image
-    - docker build -t ${CONTAINER_REGISTRY}:${RELEASE} --build-arg RELEASE=${RELEASE} .
-    # Additional tags for container image
-    - docker tag ${CONTAINER_REGISTRY}:${RELEASE}
-      ${CONTAINER_REGISTRY}:latest
-    # Push all tags
-    - docker push ${CONTAINER_REGISTRY}:${RELEASE}
-    - docker push ${CONTAINER_REGISTRY}:latest
+    - docker buildx create --name mybuilder --use
+    - docker buildx build --platform linux/arm64/v8,linux/amd64 --push
+        $TAGS
+        --build-arg RELEASE=${RELEASE} .
