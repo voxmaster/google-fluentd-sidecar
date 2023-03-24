@@ -40,6 +40,6 @@ Build Main Image:
       fi
     # Build container image
     - docker buildx create --name mybuilder --use
-    - docker buildx build --platform linux/arm64/v8,linux/amd64 --push
+    - docker buildx build --provenance=false --platform linux/arm64/v8,linux/amd64 --push
         $TAGS
         --build-arg RELEASE=${RELEASE} .
