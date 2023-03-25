@@ -1,10 +1,10 @@
 # GKE Fluentd Sidecar
+Source: https://gitlab.com/voxsoft/tools/google-fluentd-sidecar  
 [![build passing](https://gitlab.com/voxsoft/tools/google-fluentd-sidecar/badges/master/pipeline.svg)](https://gitlab.com/voxsoft/tools/google-fluentd-sidecar/-/pipelines)
-[![dockerhub-voxsoft-deprecated](https://img.shields.io/docker/pulls/voxsoft/google-fluentd-sidecar.svg)](https://hub.docker.com/r/voxsoft/google-fluentd-sidecar)
-[![dockerhub-voxmaster](https://img.shields.io/docker/pulls/voxmaster/google-fluentd-sidecar.svg)](https://hub.docker.com/r/voxmaster/google-fluentd-sidecar)
+[![dockerhub-voxsoft](https://img.shields.io/docker/pulls/voxsoft/google-fluentd-sidecar.svg)](https://hub.docker.com/r/voxsoft/google-fluentd-sidecar)
 
 Registries:
-- [DockerHub](https://hub.docker.com/r/voxmaster/google-fluentd-sidecar): `docker pull voxmaster/google-fluentd-sidecar`
+- [DockerHub](https://hub.docker.com/r/voxsoft/google-fluentd-sidecar): `docker pull voxsoft/google-fluentd-sidecar`
 - [GitLab](https://gitlab.com/voxsoft/tools/google-fluentd-sidecar/container_registry): `docker pull registry.gitlab.com/voxsoft/tools/google-fluentd-sidecar`
 
 The GKE Fluentd Sidecar extends the [Cloud Logging Agent](https://cloud.google.com/logging/docs/agent) with GKE-specific Cloud Logging labels. Allowing you to forward GKE application logs the same way as application stdout/stderr logs.

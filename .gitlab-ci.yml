@@ -5,7 +5,6 @@ variables:
   GIT_DEPTH: "1"
   CONTAINER_REGISTRIES: |
     voxsoft/google-fluentd-sidecar
-    voxmaster/google-fluentd-sidecar
     $CI_REGISTRY_IMAGE
 
 default:
